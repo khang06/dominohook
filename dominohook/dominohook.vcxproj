@@ -122,6 +122,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;DOMINOHOOK_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="Hooks.h" />
     <ClInclude Include="QPatch.h" />
+    <ClInclude Include="translations.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />

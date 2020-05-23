@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include "Hooks.h"
+#include "translations.h"
 
 extern "C" __declspec(dllexport) void dummyexport() {}
 
@@ -45,6 +46,28 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         };
         QPatch limit_patch((void*)0x004FA702, limit_patch_bytes, sizeof(limit_patch_bytes));
         limit_patch.patch();
+
+        // apply hardcoded string patches
+        auto string_patch_count = sizeof(g_string_patches) / sizeof(StringPatch);
+        for (int i = 0; i < string_patch_count; i++) {
+            auto& string_patch = g_string_patches[i];
+            switch (string_patch.type) {
+            case StringPatchType::Push: {
+                // construct the instruction
+                BYTE inst[5];
+                inst[0] = 0x68;
+                auto string_addr = string_patch.string;
+                memcpy(&inst[1], &string_addr, 4);
+
+                QPatch patch((void*)string_patch.addr, inst, 5);
+                patch.patch();
+                break;
+            }
+            default:
+                MessageBoxA(NULL, "invalid string patch type, exiting...", "dominohook fatal error", 0);
+                exit(1);
+            }
+        }
         break;
     }
     case DLL_THREAD_ATTACH:
