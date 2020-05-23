@@ -11,13 +11,13 @@ C_Hook hook_zoomout;
 
 signed int g_zoom = 15;
 
-signed int __fastcall custom_zoomin(void*, void*, unsigned int) {
-    g_zoom = min(g_zoom + 1, 255);
+signed int __fastcall custom_zoomin(void*, void*, unsigned int cur_zoom) {
+    g_zoom = min(cur_zoom + 1, 255);
     return g_zoom;
 }
 
-signed int __fastcall custom_zoomout(void*, void*, unsigned int) {
-    g_zoom = max(g_zoom - 1, 1);
+signed int __fastcall custom_zoomout(void*, void*, unsigned int cur_zoom) {
+    g_zoom = max(cur_zoom - 1, 1);
     return g_zoom;
 }
 
