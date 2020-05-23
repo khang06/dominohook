@@ -1,6 +1,8 @@
 # dominohook
 a hook dll for domino. what more is there to say?
 
+this uses the excellent QuickHook library by CPunch, which can be found [here](https://github.com/CPunch/QuickHook)
+
 ## features
 - replaced zoom handling functions
 - that's it for now...
