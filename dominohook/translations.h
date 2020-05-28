@@ -4,6 +4,7 @@
 
 typedef enum {
     Push,
+    Address,
 } StringPatchType;
 
 typedef struct {

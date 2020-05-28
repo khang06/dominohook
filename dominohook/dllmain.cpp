@@ -63,10 +63,18 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                 patch.patch();
                 break;
             }
+            case StringPatchType::Address: {
+                QPatch patch((void*)string_patch.addr, (BYTE*)&string_patch.addr, 4);
+                patch.patch();
+                break;
+            }
             default:
                 MessageBoxA(NULL, "invalid string patch type, exiting...", "dominohook fatal error", 0);
                 exit(1);
             }
+
+            // disable note overlap warning(?)
+            *(bool*)0x5ACD4D = false;
         }
         break;
     }
