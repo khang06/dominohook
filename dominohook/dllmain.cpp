@@ -68,6 +68,16 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                 patch.patch();
                 break;
             }
+            case StringPatchType::MovEAX: {
+                BYTE inst[5];
+                inst[0] = 0xB8;
+                auto string_addr = string_patch.string;
+                memcpy(&inst[1], &string_addr, 4);
+
+                QPatch patch((void*)string_patch.addr, inst, 5);
+                patch.patch();
+                break;
+            }
             default:
                 MessageBoxA(NULL, "invalid string patch type, exiting...", "dominohook fatal error", 0);
                 exit(1);

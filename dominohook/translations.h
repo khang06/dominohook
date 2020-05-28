@@ -5,6 +5,7 @@
 typedef enum {
     Push,
     Address,
+    MovEAX,
 } StringPatchType;
 
 typedef struct {
