@@ -80,16 +80,27 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                 break;
             }
             case StringPatchType::MovPtrESP: {
-                BYTE inst[8] = {};
-                inst[0] = 0xC7;
-                inst[1] = 0x44;
-                inst[2] = 0x24;
-                inst[3] = string_patch.offset;
-                //auto string_addr = _byteswap_ulong((unsigned long)string_patch.string);
-                auto string_addr = string_patch.string;
-                memcpy(&inst[4], &string_addr, 4);
+                BYTE inst[11] = {};
+                size_t len = 0;
+                // annoyingly, this uses a different encoding if the offset is greater than 127...
+                if (string_patch.offset < 0x80) {
+                    inst[0] = 0xC7;
+                    inst[1] = 0x44;
+                    inst[2] = 0x24;
+                    inst[3] = string_patch.offset;
+                    memcpy(&inst[4], &string_patch.string, 4);
+                    len = 8;
+                } else {
+                    inst[0] = 0xC7;
+                    inst[1] = 0x84;
+                    inst[2] = 0x24;
+                    inst[3] = string_patch.offset;
+                    // inst[4], inst[5], and inst[6] stay zero
+                    memcpy(&inst[7], &string_patch.string, 4);
+                    len = 11;
+                }
 
-                QPatch patch((void*)string_patch.addr, inst, 8);
+                QPatch patch((void*)string_patch.addr, inst, len);
                 patch.patch();
                 break;
             }
