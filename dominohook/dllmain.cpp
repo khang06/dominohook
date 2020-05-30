@@ -65,7 +65,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                 break;
             }
             case StringPatchType::Address: {
-                QPatch patch((void*)string_patch.addr, (BYTE*)&string_patch.addr, 4);
+                QPatch patch((void*)string_patch.addr, (BYTE*)&string_patch.string, 4);
                 patch.patch();
                 break;
             }
