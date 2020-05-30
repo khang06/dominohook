@@ -114,6 +114,17 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                 patch.patch();
                 break;
             }
+            case StringPatchType::MovPtr: {
+                BYTE inst[10] = {};
+                inst[0] = 0xC7;
+                inst[1] = 0x05;
+                memcpy(&inst[2], &string_patch.dst, 4);
+                memcpy(&inst[6], &string_patch.string, 4);
+
+                QPatch patch((void*)string_patch.addr, inst, 10);
+                patch.patch();
+                break;
+            }
             default:
                 MessageBoxA(NULL, "invalid string patch type, exiting...", "dominohook fatal error", 0);
                 exit(1);

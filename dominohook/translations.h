@@ -8,6 +8,7 @@ typedef enum {
     MovEAX,
     MovEDI,
     MovPtrESP,
+    MovPtr,
 } StringPatchType;
 
 typedef struct {
@@ -15,6 +16,7 @@ typedef struct {
     size_t addr;
     const char* string;
     unsigned char offset = 0;
+    size_t dst = 0;
 } StringPatch;
 
 StringPatch g_string_patches[] = {
