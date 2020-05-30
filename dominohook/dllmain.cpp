@@ -79,6 +79,16 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                 patch.patch();
                 break;
             }
+            case StringPatchType::MovEDI: {
+                BYTE inst[5];
+                inst[0] = 0xBF;
+                auto string_addr = string_patch.string;
+                memcpy(&inst[1], &string_addr, 4);
+
+                QPatch patch((void*)string_patch.addr, inst, 5);
+                patch.patch();
+                break;
+            }
             case StringPatchType::MovPtrESP: {
                 BYTE inst[11] = {};
                 size_t len = 0;
