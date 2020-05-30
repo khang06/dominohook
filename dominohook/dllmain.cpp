@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <stdlib.h>
 #include "Hooks.h"
 #include "translations.h"
 
@@ -79,15 +80,16 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                 break;
             }
             case StringPatchType::MovPtrESP: {
-                BYTE inst[11] = {};
+                BYTE inst[8] = {};
                 inst[0] = 0xC7;
-                inst[1] = 0x84;
+                inst[1] = 0x44;
                 inst[2] = 0x24;
+                inst[3] = string_patch.offset;
+                //auto string_addr = _byteswap_ulong((unsigned long)string_patch.string);
                 auto string_addr = string_patch.string;
-                memcpy(&inst[3], &string_addr, 4);
-                memcpy(&inst[7], &string_patch.offset, 4);
+                memcpy(&inst[4], &string_addr, 4);
 
-                QPatch patch((void*)string_patch.addr, inst, 11);
+                QPatch patch((void*)string_patch.addr, inst, 8);
                 patch.patch();
                 break;
             }

@@ -13,7 +13,7 @@ typedef struct {
     StringPatchType type;
     size_t addr;
     const char* string;
-    size_t offset = 0;
+    unsigned char offset = 0;
 } StringPatch;
 
 StringPatch g_string_patches[] = {
