@@ -7,6 +7,7 @@ typedef enum {
     Address,
     MovEAX,
     MovEDI,
+    MovEBP,
     MovPtrESP,
     MovPtr,
 } StringPatchType;
