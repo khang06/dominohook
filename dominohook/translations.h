@@ -79,7 +79,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::MovEAX, 0x406E10 + 0x45, "Modification"},
 
     // (検索マクロID),(置換後のマクロID)\n(検索マクロID),(置換後のマクロID)\n・・・\n\nというような書式で文字列データを入力してください。\n区切りはカンマまたはタブに対応しています。\nコピーペーストも可能です。\n[OK]ボタンをクリックすると、内容を解析して置換リストへ追加します。
-    {StringPatchType::Push, 0x4070A0 + 0x8, "Input string data using the following format:\n(Target CC#),(Replacement CC#)\n(Target CC#),(Replacement CC#)\n(Target CC#),(Replacement CC#)\nand so on... \nClick the [OK] button to add the pattern in the replacement list."},
+    {StringPatchType::Push, 0x4070A0 + 0x8, ""}, // Translation is migrated to resource data
 
     // 小節 %d にスケールが設定されていません。
     {StringPatchType::Push, 0x408C90 + 0x18A, "The key scale for measure %d is not yet configured."},
@@ -111,7 +111,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x409860 + 0xD2, "Invalid file type."},
 
     // イベントの追加
-    {StringPatchType::Push, 0x40A7B0 + 0x6, "Event Addition"},
+    {StringPatchType::Push, 0x40A7B0 + 0x6, "Event Add"},
 
     // 一括変更
     {StringPatchType::Push, 0x40AB40 + 0x33, "Modify..."},
@@ -124,7 +124,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x40BE90 + 0x6, "Replace CC#"},
 
     // コントロールチェンジの置換（複数）
-    {StringPatchType::Push, 0x40C300 + 0x6, "Replace CC# in Batch"},
+    {StringPatchType::Push, 0x40C300 + 0x6, "Multi Replace CC#"},
 
     // ハモリパートの生成
     {StringPatchType::Push, 0x40C570 + 0x6, "Harmonize"},
@@ -139,8 +139,8 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x40D0B0 + 0x204, "The selection contains no overlapping note gates."},
 
     // イベントの削除
-    {StringPatchType::Push, 0x40D380 + 0x6, "Event Deletion"},
-    {StringPatchType::Push, 0x40DE30 + 0x65, "Event Deletion"},
+    {StringPatchType::Push, 0x40D380 + 0x6, "Event Delete"},
+    {StringPatchType::Push, 0x40DE30 + 0x65, "Event Delete"},
 
     // 範囲の削除
     {StringPatchType::Push, 0x40D680 + 0x33, "Selection Deletion"},
@@ -915,7 +915,7 @@ StringPatch g_string_patches[] = {
 
     // 作業時間をリセットします。\n（リセット後に[キャンセル]ボタンを押しても元には戻りません。）\n\nよろしいですか？
     {StringPatchType::Push, 0x462EE7, "Time elapsed while running this project will be reset.\nThis cannot be undone!\nAre you sure about this?"},
-    /**/
+    
     //  %d時間 %d分 %d秒
     {StringPatchType::Push, 0x462F10 + 0x75, "%dh : %dm : %ds"},
 
@@ -969,10 +969,13 @@ StringPatch g_string_patches[] = {
 
     // デフォルトゲート
     {StringPatchType::Push, 0x469760 + 0x6, "Default Gate"},
-
+    
     // iniファイルのセクション削除に失敗しました。
-    {StringPatchType::Push, 0x46F410 + 0x3D, "Failed to delete .ini file section."},
-
+    {StringPatchType::MovPtrEBP, 0x46F410 + 0x3D, "Failed to delete .ini file section.", 0xD8},
+    {StringPatchType::Push, 0x46F410 + 0x69, "Failed to delete .ini file section."},
+    {StringPatchType::Push, 0x46F410 + 0xC7, "Failed to delete .ini file section."},
+    {StringPatchType::Push, 0x46F410 + 0xED, "Failed to delete .ini file section."},
+    
     // ユーザー定義ツールバー2
     {StringPatchType::MovPtrESP, 0x473310 + 0x170, "User Toolbar 2 ", 0xC8 - 0x24},
 
@@ -999,7 +1002,7 @@ StringPatch g_string_patches[] = {
 
     // 取扱説明書の表示に失敗しました。
     {StringPatchType::Push, 0x475C05, "User's Manual data is missing."},
-
+    
     // 環境設定のエクスポート
     {StringPatchType::MovPtrESP, 0x47619E, "Export Preferences to file", 0xA4},
 
@@ -1039,7 +1042,7 @@ StringPatch g_string_patches[] = {
 
     // Key番号は0〜127を指定してください : %s(%d)
     {StringPatchType::Push, 0x47CED0 + 0x4D2, "Specify the Key (0~127): %s (%d)"},
-
+    
     // 値テーブルIDが重複しています(ID=%d) : %s(%d)
     {StringPatchType::Push, 0x47D480 + 0x4E5, "Existing duplicate value table ID (ID=%d): %s(%d)"},
 
@@ -1112,7 +1115,7 @@ StringPatch g_string_patches[] = {
 
     // 未登録
     {StringPatchType::Push, 0x485450 + 0x49, "      "},
-
+    
     // %d 分 %d 秒
     {StringPatchType::Push, 0x487CF0 + 0x59, "%dm : %ds"},
 
@@ -1341,7 +1344,7 @@ StringPatch g_string_patches[] = {
     // 元に戻す
     {StringPatchType::Push, 0x4A4DE0 + 0x27, "Undo"},
     {StringPatchType::Address, 0x5ABE14, "Undo"},
-
+    
     // 新規作成用のファイルが開けませんでした。 : %s
     {StringPatchType::Push, 0x4A6B50 + 0xBF, "Custom new project file is invalid. (%s)"},
 
@@ -1838,5 +1841,5 @@ StringPatch g_string_patches[] = {
     // 閉じるタグが見つかりません。\n\nタグ : %s\n行数 : %d
     {StringPatchType::Push, 0x4F98F0 + 0x400, "Missing closing tag.\n\nTag: %s\nLine: %d"},
     {StringPatchType::Push, 0x4F98F0 + 0x4C0, "Missing closing tag.\n\nTag: %s\nLine: %d"},
-
+    
 };
