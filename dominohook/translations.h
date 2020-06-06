@@ -9,6 +9,7 @@ typedef enum {
     MovEDI,
     MovEBP,
     MovPtrESP,
+    MovPtrEBP,
     MovPtr,
 } StringPatchType;
 

@@ -124,6 +124,19 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                 patch.patch();
                 break;
             }
+            case StringPatchType::MovPtrEBP: {
+                BYTE inst[11] = {};
+                size_t len = 0;
+                // only going to handle -0x80 to +0x7F for now
+                inst[0] = 0xC7;
+                inst[1] = 0x45;
+                inst[2] = string_patch.offset;
+                memcpy(&inst[3], &string_patch.string, 4);
+
+                QPatch patch((void*)string_patch.addr, inst, 7);
+                patch.patch();
+                break;
+            }
             case StringPatchType::MovPtr: {
                 BYTE inst[10] = {};
                 inst[0] = 0xC7;
