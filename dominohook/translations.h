@@ -449,7 +449,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::MovPtrESP, 0x423490 + 0xB0, "Measure Links"},
 
     // 変数代入式
-    {StringPatchType::MovPtrESP, 0x423490 + 0xA0, "Variables", 0xAC - 0x54},
+    {StringPatchType::MovPtrESP, 0x423490 + 0xA0, "Variable", 0xAC - 0x54},
     {StringPatchType::Push, 0x4431D0 + 0x3E, "Variables"},
 
     // テンポ
@@ -505,7 +505,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x426542, "Port"},
 
     // ▼
-    {StringPatchType::Push, 0x426950 + 0x322, "≫"},
+    {StringPatchType::Push, 0x426950 + 0x322, ">>"},
 
     // 動き
     {StringPatchType::Push, 0x426950 + 0x77, "Action"},
@@ -733,17 +733,17 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x445E30 + 0x6, "Graph Panel - Pen Tool"},
 
     // 描画 (%s, %d) → (%s, %d)
-    {StringPatchType::Push, 0x4463C0 + 0x17B, "Graph (%s, %d) → (%s, %d)"},
+    {StringPatchType::Push, 0x4463C0 + 0x17B, "Graph (%s, %d) >> (%s, %d)"},
 
     // 描画 (%s, %.2f) → (%s, %.2f)
-    {StringPatchType::Push, 0x4463C0 + 0x130, "Graph (%s, %.2f) → (%s, %.2f)"},
+    {StringPatchType::Push, 0x4463C0 + 0x130, "Graph (%s, %.2f) >> (%s, %.2f)"},
 
     // 移動 (%s, %d) → (%s, %d)
-    {StringPatchType::Push, 0x447360 + 0x19A, "Moved (%s, %d) → (%s, %d)"},
-    {StringPatchType::Push, 0x447360 + 0x1CC, "Moved (%s, %d) → (%s, %d)"},
+    {StringPatchType::Push, 0x447360 + 0x19A, "Moved (%s, %d) >> (%s, %d)"},
+    {StringPatchType::Push, 0x447360 + 0x1CC, "Moved (%s, %d) >> (%s, %d)"},
 
     // 移動 (%s, %.2f) → (%s, %.2f)
-    {StringPatchType::Push, 0x447360 + 0x16A, "Moved (%s, %.2f) → (%s, %.2f)"},
+    {StringPatchType::Push, 0x447360 + 0x16A, "Moved (%s, %.2f) >> (%s, %.2f)"},
 
     // アンカー上で右ダブルクリック
     {StringPatchType::Push, 0x4478E0 + 0x9B, "Anchor Double Right-click"},
@@ -800,13 +800,13 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x4E3610 + 0x2A, "None"},
 
     // Gate : %d → %d
-    {StringPatchType::Push, 0x447F80 + 0x124, "Gate: %d → %d"},
+    {StringPatchType::Push, 0x447F80 + 0x124, "Gate: %d >> %d"},
 
     // Vel/Value 補正 : %d
     {StringPatchType::Push, 0x448BA0 + 0xF5, "Vel/Value change: %d"},
 
     // 選択 (%s, %d) → (%s, %d)
-    {StringPatchType::Push, 0x4492A0 + 0x70, "Selection from (%s, %d) → (%s, %d)"},
+    {StringPatchType::Push, 0x4492A0 + 0x70, "Selection from (%s, %d) >> (%s, %d)"},
 
     // クリックでこの値を挿入
     {StringPatchType::Push, 0x449930 + 0x13E, "Insert value by clicking"},
@@ -1256,7 +1256,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x491980 + 0x41, "Select"},
 
     // 選択 (%s, %s) → (%s, %s)
-    {StringPatchType::Push, 0x491F40 + 0xB2, "Selection from (%s, %s) → (%s, %s)"},
+    {StringPatchType::Push, 0x491F40 + 0xB2, "Selection from (%s, %s) >> (%s, %s)"},
 
     // 区切り（セパレータ）です。
     {StringPatchType::Push, 0x49C520 + 0xA5, "Adds a separator line in between commands."},
@@ -1701,7 +1701,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x4DB760 + 0x6, "Tracklist Box"},
 
     // 選択 (Tr.%d, %s) → (Tr.%d, %s)
-    {StringPatchType::Push, 0x4E21C0 + 0x70, "Selection from (Tr.%d, %s) → (Tr.%d, %s)"},
+    {StringPatchType::Push, 0x4E21C0 + 0x70, "Selection from (Tr.%d, %s) >> (Tr.%d, %s)"},
 
     // トラックリスト - 選択ツール
     {StringPatchType::Push, 0x4E2640 + 0x6, "Tracklist - Select Tool"},
