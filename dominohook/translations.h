@@ -329,7 +329,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x41B860 + 0xFF, "An exception has occurred while undoing the command [%s].\n\nPlease report to the developer how the exception occurred."},
 
     // コマンド「%s」をリドゥ中に例外が発生しました。\n\n例外が発生する手順を報告して頂けると助かります。
-    {StringPatchType::Push, 0x41BA50 + 0xFF, "An exception has occurred while redoing the command %s.\n\nPlease report to the developer how the exception occurred."},
+    {StringPatchType::Push, 0x41BA50 + 0xFF, "An exception has occurred while redoing the command [%s].\n\nPlease report to the developer how the exception occurred."},
 
     // トラックの削除
     {StringPatchType::Push, 0x41C590 + 0x6, "Remove Track(s)"},
@@ -801,6 +801,7 @@ StringPatch g_string_patches[] = {
 
     // Gate : %d → %d
     {StringPatchType::Push, 0x447F80 + 0x124, "Gate: %d >> %d"},
+    {StringPatchType::Push, 0x48DD00+0x151, "Gate: %d >> %d"},
 
     // Vel/Value 補正 : %d
     {StringPatchType::Push, 0x448BA0 + 0xF5, "Vel/Value change: %d"},
@@ -821,7 +822,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x44E840 + 0x12, "Insert Key Signature"},
 
     // あいうえお\n
-    {StringPatchType::Push, 0x4511A0 + 0x90, "aeiou"},
+    //{StringPatchType::Push, 0x4511A0 + 0x90, "aeiou"}, // I don't think this should be modified
 
     // Tick,Gate,Stepの桁: %d
     {StringPatchType::Push, 0x456340 + 0x6E, "Tick, Gate, Step: %d"},
@@ -902,7 +903,9 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x461DF0 + 0x10, "Insert Rhythmic Signature"},
 
     // フォルダパスの取得に失敗しました。
-    {StringPatchType::Push, 0x4621B0 + 0x87, "Failed to retrieve folder path. "},
+    {StringPatchType::Push, 0x4621B0 + 0x87, "Failed to retrieve folder path."},
+    {StringPatchType::Push, 0x482FD8, "Failed to retrieve folder path."},
+    {StringPatchType::Push, 0x4835AC, "Failed to retrieve folder path."},
 
     // 登録されたパスはディレクトリではありません。\n\n
     {StringPatchType::Push, 0x462350 + 0x97, "This registered path is not a directory.\n\n"},
@@ -1121,6 +1124,7 @@ StringPatch g_string_patches[] = {
 
     // ループ範囲
     {StringPatchType::Push, 0x48ABC0 + 0x390, "Loop Range"},
+    {StringPatchType::Push, 0x4E0DB0 + 0x3DF, "Loop Range"},
 
     // ピアノロール - 選択ツール
     {StringPatchType::Push, 0x48CA70 + 0x6, "Piano Roll - Select Tool"},
@@ -1138,7 +1142,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x48D440 + 0x488, "Default Values Modified (Velocity : %d, Gate : %d)"},
 
     // 移動 (%s, %s) → (%s, %s)
-    {StringPatchType::Push, 0x48E040 + 0x1D5, "Moved (%s, %s) → (%s, %s)"},
+    {StringPatchType::Push, 0x48E040 + 0x1D5, "Moved (%s, %s) >> (%s, %s)"},
 
     // 配置 (%s, %s)
     {StringPatchType::Push, 0x48F230 + 0x120, "Insert (%s, %s)"},
@@ -1302,7 +1306,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x4A4360 + 0x42, "Please input a value or formula."},
 
     // 選択 (%s) → (%s)
-    {StringPatchType::Push, 0x4A4A50 + 0x62, "Selection from (%s) → (%s)"},
+    {StringPatchType::Push, 0x4A4A50 + 0x62, "Selection from (%s) >> (%s)"},
 
     // 移動 (%d)
     {StringPatchType::Push, 0x4A4B20 + 0x28, "Move (%d)"},
@@ -1403,7 +1407,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x4AAE00 + 0x36F, "Invalid file type.\n\n"},
 
     // MIDIデータを解析してコントロールチェンジマクロを復元しますか？\n\n※ 解析には数分掛かることがあります。\n※ [環境設定]-[SMF]にて、このメッセージの有無を設定できます。
-    {StringPatchType::Push, 0x4AA4A0 + 0x4B5, "Would you like to restore Control Change Macros?\n ※ Analysis might take several minutes.\n ※ This message can be disabled in the Preferences (SMF) window."},
+    {StringPatchType::Push, 0x4AA4A0 + 0x4B5, "Would you like to restore Control Change Macros?\n * Analysis might take several minutes.\n * This message can be disabled in the Preferences (SMF) window."},
 
     // MIDIファイルを読み込みます。\nよろしいですか？\n\n%s
     {StringPatchType::Push, 0x4AA4A0 + 0x8A, " Would you like to load the following?\n%s"},
@@ -1537,7 +1541,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x4BA470 + 0x75, "MIDI-IN Device"},
 
     // MIDI-INデバイスが一つもありません。
-    {StringPatchType::Push, 0x4BA8BC, "No registered MIDI-IN Devices."},
+    {StringPatchType::Push, 0x4BA8BC, "There are no registered MIDI-IN Devices."},
 
     // [詳細]ボタンをクリックし、複数チャンネル録音の詳細設定を行ってください。
     {StringPatchType::Push, 0x4BBEF0 + 0x2B, "Click the [Config...] button to set up Multiple Channel Recording."},
@@ -1652,6 +1656,12 @@ StringPatch g_string_patches[] = {
     // カスタムデータを入力してください。
     {StringPatchType::Push, 0x4D3510 + 0x3F, "Please input custom data."},
 
+    // ↓↑ from [Event > Stroke]
+    {StringPatchType::Push, 0x4D3570 + 0x74, "U"},
+    {StringPatchType::Push, 0x4D3B8A, "U"},
+    {StringPatchType::Push, 0x4D3570 + 0x8F, "D"},    
+    {StringPatchType::Push, 0x4D3BDA, "D"},
+    
     // 小節範囲を正しく設定してください。
     {StringPatchType::Push, 0x4D50C0 + 0x63, "Please specify the measure range correctly."},
 
@@ -1842,5 +1852,5 @@ StringPatch g_string_patches[] = {
     // 閉じるタグが見つかりません。\n\nタグ : %s\n行数 : %d
     {StringPatchType::Push, 0x4F98F0 + 0x400, "Missing closing tag.\n\nTag: %s\nLine: %d"},
     {StringPatchType::Push, 0x4F98F0 + 0x4C0, "Missing closing tag.\n\nTag: %s\nLine: %d"},
-    
+
 };
