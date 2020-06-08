@@ -5,6 +5,7 @@ this uses the excellent QuickHook library by CPunch, which can be found [here](h
 
 ## features
 - replaced zoom handling functions
+- string patching framework with translated strings by [@ryryjy](https://github.com/ryryjy)
 - that's it for now...
 
 ## usage
