@@ -434,23 +434,23 @@ StringPatch g_string_patches[] = {
 
     // マーク
     {StringPatchType::MovPtrESP, 0x423490 + 0xE0, "Markers", 0xAC - 0x34},
-    {StringPatchType::Push, 0x4AC860 + 0x9D, "Markers"},
+    {StringPatchType::Push, 0x4AC860 + 0x9D, "Marker"},
 
     // 調号
     {StringPatchType::MovPtrESP, 0x423490 + 0xD0, "Key Signatures", 0xAC - 0x3C},
-    {StringPatchType::Push, 0x4AC860 + 0xD0, "Key Signatures"},
+    {StringPatchType::Push, 0x4AC860 + 0xD0, "Key Signature"},
 
 
     // 拍子
     {StringPatchType::MovPtrESP, 0x423490 + 0xC0, "Rhythmic Signatures", 0xAC - 0x44},
-    {StringPatchType::Push, 0x4AC860 + 0x6A, "Rhythmic Signatures"},
+    {StringPatchType::Push, 0x4AC860 + 0x6A, "Rhythmic Signature"},
 
     // メジャーリンク
     {StringPatchType::MovPtrESP, 0x423490 + 0xB0, "Measure Links"},
 
     // 変数代入式
-    {StringPatchType::MovPtrESP, 0x423490 + 0xA0, "Variable", 0xAC - 0x54},
-    {StringPatchType::Push, 0x4431D0 + 0x3E, "Variables"},
+    {StringPatchType::MovPtrESP, 0x423490 + 0xA0, "Variables", 0xAC - 0x54},
+    {StringPatchType::Push, 0x4431D0 + 0x3E, "Variable"},
 
     // テンポ
     {StringPatchType::MovPtrESP, 0x423490 + 0x90, "Tempi", 0xAC - 0x5C},
@@ -493,7 +493,7 @@ StringPatch g_string_patches[] = {
     {StringPatchType::Push, 0x4289E0 + 0x14B, "(none)"},
 
     // デバイスに「%s」を指定した場合、\n音源欄には通常「%s」を指定してください。
-    {StringPatchType::Push, 0x42646B, "The device [%s] is appropriately/commonly matched with the sound source [%s]."},
+    {StringPatchType::Push, 0x42646B, "The device [%s] is appropriately matched with the sound source [%s]."},
 
     // 音源（音源定義ファイル）
     {StringPatchType::Push, 0x4264F0 + 0x9C, "Sound Source"},
@@ -1260,6 +1260,7 @@ StringPatch g_string_patches[] = {
 
     // 区切り（セパレータ）です。
     {StringPatchType::Push, 0x49C520 + 0xA5, "Adds a separator line in between commands."},
+    {StringPatchType::Push, 0x4D7DEF, "Adds a separator line in between commands."},
 
     // その位置へは移動出来ません。
     {StringPatchType::Push, 0x49CAB5, "Cannot move in that position"},
