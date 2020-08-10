@@ -13,13 +13,13 @@ typedef enum {
     MovPtr,
 } StringPatchType;
 
-typedef struct {
+struct StringPatch {
     StringPatchType type;
     size_t addr;
     const char* string;
     unsigned char offset = 0;
     size_t dst = 0;
-} StringPatch;
+};
 
 StringPatch g_string_patches[] = {
 

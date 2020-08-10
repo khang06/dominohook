@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "Hooks.h"
 #include "translations.h"
+#include "CustomMenuEntries.h"
 
 extern "C" __declspec(dllexport) void dummyexport() {}
 
@@ -154,7 +155,14 @@ BOOL APIENTRY DllMain( HMODULE hModule,
             }
 
             // disable note overlap warning(?)
-            *(bool*)0x5ACD4D = false;
+            //*(bool*)0x5ACD4D = false;
+
+            // inject custom message map for custom menu entries
+            auto custom_msg_map = new AFX_MSGMAP_ENTRY[CPORTALVIEW_MSGMAP_LEN + sizeof(g_custom_entries)];
+            memcpy(custom_msg_map, (void*)0x5601F0, CPORTALVIEW_MSGMAP_LEN * sizeof(AFX_MSGMAP_ENTRY)); // copy original entries
+            memcpy(&custom_msg_map[CPORTALVIEW_MSGMAP_LEN - 1], g_custom_entries, sizeof(g_custom_entries));
+            QPatch msg_map_patch((void*)CPORTALVIEW_MSGMAP_PTR_PTR, (BYTE*)&custom_msg_map, 4);
+            msg_map_patch.patch();
         }
         break;
     }

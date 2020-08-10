@@ -152,6 +152,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CPortalView.h" />
+    <ClInclude Include="CSelection.h" />
+    <ClInclude Include="CustomMenuEntries.h" />
     <ClInclude Include="Hooks.h" />
     <ClInclude Include="QPatch.h" />
     <ClInclude Include="translations.h" />
