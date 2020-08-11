@@ -1,3 +1,3 @@
-[submodule "dominohook/external/inih"]
-	path = dominohook/external/inih
+[submodule "dominohook/externals/inih"]
+	path = dominohook/externals/inih
 	url = https://github.com/benhoyt/inih.git

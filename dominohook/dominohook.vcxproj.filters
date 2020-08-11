@@ -16,6 +16,12 @@
     <Filter Include="Header Files\Domino">
       <UniqueIdentifier>{a3a2f222-ac51-4509-985e-9f111247d067}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\inih">
+      <UniqueIdentifier>{1c128da1-e8d9-4d06-beb9-1a17c98dde35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\inih">
+      <UniqueIdentifier>{309969e4-18a2-4e95-8dee-f199993a31ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks.h">
@@ -36,6 +42,30 @@
     <ClInclude Include="CSelection.h">
       <Filter>Header Files\Domino</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalFuncs.h">
+      <Filter>Header Files\Domino</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainFrame.h">
+      <Filter>Header Files\Domino</Filter>
+    </ClInclude>
+    <ClInclude Include="CPortalApp.h">
+      <Filter>Header Files\Domino</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\inih\cpp\INIReader.h">
+      <Filter>Header Files\inih</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\inih\ini.h">
+      <Filter>Header Files\inih</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -47,5 +77,22 @@
     <ClCompile Include="QPatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\inih\ini.c">
+      <Filter>Source Files\inih</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\inih\cpp\INIReader.cpp">
+      <Filter>Source Files\inih</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dominohook.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

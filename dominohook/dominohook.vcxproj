@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -37,7 +37,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -78,6 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>D:\Domino143\</OutDir>
+    <IncludePath>$(ProjectDir)externals\inih;$(ProjectDir)externals\inih\cpp;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -123,6 +125,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -130,6 +133,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,17 +156,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CMainFrame.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="CPortalApp.h" />
     <ClInclude Include="CPortalView.h" />
     <ClInclude Include="CSelection.h" />
     <ClInclude Include="CustomMenuEntries.h" />
+    <ClInclude Include="externals\inih\cpp\INIReader.h" />
+    <ClInclude Include="externals\inih\ini.h" />
+    <ClInclude Include="GlobalFuncs.h" />
     <ClInclude Include="Hooks.h" />
     <ClInclude Include="QPatch.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="translations.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Common.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="externals\inih\cpp\INIReader.cpp" />
+    <ClCompile Include="externals\inih\ini.c" />
     <ClCompile Include="Hooks.cpp" />
     <ClCompile Include="QPatch.cpp" />
+    <ClCompile Include="Settings.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dominohook.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,6 +2,7 @@
 
 #include "CSelection.h"
 
+// TODO: this should be read as virtual functions from the class, not defines
 #define CPORTALVIEW_ENABLEIFSELECTION 0x004A8620
 
 class CPortalView {
