@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <shlwapi.h>
 #include <stdlib.h>
+#include <intrin.h>
 #include "Hooks.h"
 #include "translations.h"
 #include "CustomMenuEntries.h"
@@ -9,24 +10,35 @@
 #include "Settings.h"
 
 extern "C" __declspec(dllexport) void dummyexport() {}
+#pragma intrinsic(_ReturnAddress)
 
 C_Hook hook_zoomin;
 C_Hook hook_zoomout;
 C_Hook hook_CPortalApp_InitInstance;
 
-signed int g_zoom = 15;
-
 // fastcall has to be used in place of thiscall
 // to get the registers to line up, a dummy argument must be used right after this
 // this will be a common thing throughout the hooks
-signed int __fastcall custom_zoomin(void*, void*, unsigned int cur_zoom) {
-    g_zoom = min(cur_zoom + 1, 255);
-    return g_zoom;
+signed int __fastcall custom_zoomin(void* thisptr, void*, unsigned int cur_zoom) {
+    if (_ReturnAddress() == (void*)0x4F058B) {
+        // vertical zoom, this is horribly broken for that so this just passes the original function through
+        hook_zoomin.removeHook();
+        auto ret = zoomin(thisptr, cur_zoom);
+        hook_zoomin.installHook();
+        return ret;
+    }
+    return min(cur_zoom + 1, 255);
 }
 
-signed int __fastcall custom_zoomout(void*, void*, unsigned int cur_zoom) {
-    g_zoom = max(cur_zoom - 1, 1);
-    return g_zoom;
+signed int __fastcall custom_zoomout(void* thisptr, void*, unsigned int cur_zoom) {
+    if (_ReturnAddress() == (void*)0x4F061B) {
+        // see above
+        hook_zoomout.removeHook();
+        auto ret = zoomout(thisptr, cur_zoom);
+        hook_zoomout.installHook();
+        return ret;
+    }
+    return max(cur_zoom - 1, 1);
 }
 
 signed int __fastcall custom_CPortalApp_InitInstance(void* thisptr, void*) {
@@ -46,10 +58,7 @@ signed int __fastcall custom_CPortalApp_InitInstance(void* thisptr, void*) {
     item_info.dwTypeData = (LPSTR)"Settings";
     InsertMenuItemA(custom_submenu, ID_SETTINGS, FALSE, &item_info);
 
-    item_info.fMask = MIIM_ID | MIIM_TYPE;
-    item_info.wID = ID_SEPARATOR;
-    item_info.fType = MFT_SEPARATOR;
-    InsertMenuItemA(custom_submenu, ID_SEPARATOR, FALSE, &item_info);
+    InsertMenuA(custom_submenu, 0, MF_SEPARATOR, 0, NULL);
 
     item_info.fMask = MIIM_ID | MIIM_STRING;
     item_info.wID = ID_GITHUB;
