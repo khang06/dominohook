@@ -1,0 +1,3 @@
+[submodule "dominohook/external/inih"]
+	path = dominohook/external/inih
+	url = https://github.com/benhoyt/inih.git
