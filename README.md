@@ -9,7 +9,7 @@ this uses the excellent QuickHook library by CPunch, which can be found [here](h
 - that's it for now...
 
 ## usage
-1. compile the dll (x86/Release)
+1. compile the dll (x86/Release) or get a build from the releases page
 2. use [Stud_PE](http://www.cgsoftlabs.ro/studpe.html) to add the dummy import to the domino exe
     * open it
     * drag the domino exe onto it
