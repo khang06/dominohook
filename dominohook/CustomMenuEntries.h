@@ -5,6 +5,7 @@
 #include "CMainFrame.h"
 #include "Common.h"
 #include "Settings.h"
+#include "ReferenceAudio.h"
 
 #define CUSTOM_RES_START 0xF007
 
@@ -15,10 +16,11 @@
 
 #define ID_CUSTOMITEM1 CUSTOM_RES_START
 
-#define ID_SETTINGS    CUSTOM_RES_START + 1
-#define ID_SEPARATOR   CUSTOM_RES_START + 2
-#define ID_GITHUB      CUSTOM_RES_START + 3
-#define ID_BUILDDATE   CUSTOM_RES_START + 4
+#define ID_REFAUDIO    CUSTOM_RES_START + 1
+#define ID_SETTINGS    CUSTOM_RES_START + 2
+#define ID_SEPARATOR   CUSTOM_RES_START + 3
+#define ID_GITHUB      CUSTOM_RES_START + 4
+#define ID_BUILDDATE   CUSTOM_RES_START + 5
 
 enum AfxSig {
 	AfxSig_end = 0,     // [marks end of message map]
@@ -108,7 +110,7 @@ void __fastcall selection_test(CPortalView* thisptr, void*) {
 	Common::Log(Common::LogType::None, "wow");
 	Common::Log(Common::LogType::Info, "wow");
 	Common::Log(Common::LogType::Warn, "wow");
-	//Common::Fatal("error message goes here...here's a number %d", 42);
+	//Common::Fatal(NULL, "error message goes here...here's a number %d", 42);
 }
 
 AFX_MSGMAP_ENTRY g_custom_portal_entries[] = {
@@ -116,6 +118,10 @@ AFX_MSGMAP_ENTRY g_custom_portal_entries[] = {
 	{WM_COMMAND, 0, ID_CUSTOMITEM1, ID_CUSTOMITEM1, AfxSig_vv, selection_test},
 	{0, 0, 0, 0, 0, nullptr}, // terminator
 };
+
+void __fastcall open_refaudio(CPortalView* thisptr, void*) {
+	ReferenceAudio::OpenDialog();
+}
 
 void __fastcall open_settings(CPortalView* thisptr, void*) {
 	Settings::OpenDialog();
@@ -126,6 +132,7 @@ void __fastcall open_github(CPortalView* thisptr, void*) {
 }
 
 AFX_MSGMAP_ENTRY g_custom_frame_entries[] = {
+	{WM_COMMAND, 0, ID_REFAUDIO, ID_REFAUDIO, AfxSig_vv, open_refaudio},
 	{WM_COMMAND, 0, ID_SETTINGS, ID_SETTINGS, AfxSig_vv, open_settings},
 	{WM_COMMAND, 0, ID_GITHUB, ID_GITHUB, AfxSig_vv, open_github},
 	{0, 0, 0, 0, 0, nullptr}, // terminator

@@ -79,7 +79,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>D:\Domino143\</OutDir>
-    <IncludePath>$(ProjectDir)externals\inih;$(ProjectDir)externals\inih\cpp;$(IncludePath)</IncludePath>
+    <IncludePath>D:\bass2415\c;$(ProjectDir)externals\inih;$(ProjectDir)externals\inih\cpp;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\bass2415\c;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -133,7 +134,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>bass.lib;shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -159,6 +160,7 @@
     <ClInclude Include="CMainFrame.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="CPortalApp.h" />
+    <ClInclude Include="CPortalData.h" />
     <ClInclude Include="CPortalView.h" />
     <ClInclude Include="CSelection.h" />
     <ClInclude Include="CustomMenuEntries.h" />
@@ -167,6 +169,7 @@
     <ClInclude Include="GlobalFuncs.h" />
     <ClInclude Include="Hooks.h" />
     <ClInclude Include="QPatch.h" />
+    <ClInclude Include="ReferenceAudio.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="translations.h" />
@@ -178,6 +181,7 @@
     <ClCompile Include="externals\inih\ini.c" />
     <ClCompile Include="Hooks.cpp" />
     <ClCompile Include="QPatch.cpp" />
+    <ClCompile Include="ReferenceAudio.cpp" />
     <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,6 @@ namespace Common {
     };
 
     void Log(LogType type, const char* format, ...);
-    void Warn(const char* format, ...);
-    void __declspec(noreturn) Fatal(const char* format, ...);
+    void Warn(HWND hWnd, const char* format, ...);
+    void __declspec(noreturn) Fatal(HWND hWnd, const char* format, ...);
 }

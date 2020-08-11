@@ -1,5 +1,6 @@
 #pragma once
 
+// TODO: this is in the wrong header file
 static auto zoomin = ((signed int(__thiscall*)(void*, unsigned int))0x004FA780);
 static auto zoomout = ((signed int(__thiscall*)(void*, unsigned int))0x004FA720);
 

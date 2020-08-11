@@ -10,7 +10,7 @@ Settings* Settings::m_pInstance;
 Settings::Settings(std::string path) {
     m_sSavePath = path;
     if (!PathFileExistsA(path.c_str())) {
-        Common::Warn("No config file for dominohook was found. Loading defaults.");
+        Common::Warn(NULL, "No config file for dominohook was found. Loading defaults.");
         Save(); // it will annoy the user until a manual save without this
     }
     
@@ -29,13 +29,13 @@ void WriteBool(FILE* file, const std::string& name, bool b) {
 void Settings::Save() {
     // warning instead of fatal because it's not worth losing work over not being able to save dominohook settings
     if (m_sSavePath.empty()) {
-        Common::Warn("Attempted to save settings with an empty m_sSavePath. Dominohook settings have not been saved.");
+        Common::Warn(NULL, "Attempted to save settings with an empty m_sSavePath. Dominohook settings have not been saved.");
         return;
     }
 
     FILE* ini = fopen(m_sSavePath.c_str(), "w");
     if (!ini) {
-        Common::Warn("Failed to open the settings file for writing. Dominohook settings have not been saved.");
+        Common::Warn(NULL, "Failed to open the settings file for writing. Dominohook settings have not been saved.");
         return;
     }
 

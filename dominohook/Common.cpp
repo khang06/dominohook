@@ -24,12 +24,12 @@ namespace Common {
             flags = 0x20;
             break;
         default:
-            Fatal("invalid logtype");
+            Warn(NULL, "Invalid LogType %u", type);
         };
         log_to_window(flags, "[dominohook] %s", buf);
     }
 
-    void Warn(const char* format, ...) {
+    void Warn(HWND hWnd, const char* format, ...) {
         va_list args;
         char buf[1024];
 
@@ -37,10 +37,10 @@ namespace Common {
         vsnprintf(buf, sizeof(buf), format, args);
         va_end(args);
 
-        MessageBoxA(NULL, buf, "dominohook warning", MB_ICONWARNING);
+        MessageBoxA(hWnd, buf, "dominohook warning", MB_ICONWARNING);
     }
 
-    void __declspec(noreturn) Fatal(const char* format, ...) {
+    void __declspec(noreturn) Fatal(HWND hWnd, const char* format, ...) {
         va_list args;
         char buf[1024];
 
@@ -48,7 +48,7 @@ namespace Common {
         vsnprintf(buf, sizeof(buf), format, args);
         va_end(args);
 
-        MessageBoxA(NULL, buf, "dominohook fatal error (please report)", MB_ICONSTOP);
+        MessageBoxA(hWnd, buf, "dominohook fatal error (please report)", MB_ICONSTOP);
         exit(1); // TODO: generate a minidump?
     }
 }

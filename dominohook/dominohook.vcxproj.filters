@@ -66,6 +66,12 @@
     <ClInclude Include="externals\inih\ini.h">
       <Filter>Header Files\inih</Filter>
     </ClInclude>
+    <ClInclude Include="ReferenceAudio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPortalData.h">
+      <Filter>Header Files\Domino</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -88,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="externals\inih\cpp\INIReader.cpp">
       <Filter>Source Files\inih</Filter>
+    </ClCompile>
+    <ClCompile Include="ReferenceAudio.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

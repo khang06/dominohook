@@ -11,7 +11,7 @@ public:
     }
     static Settings* GetInstance() {
         if (!m_pInstance)
-            Common::Fatal("Settings::GetInstance() called before Load()!");
+            Common::Fatal(NULL, "Settings::GetInstance() called before Load()!");
         return m_pInstance;
     }
     static void OpenDialog();

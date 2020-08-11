@@ -2,12 +2,15 @@
 #include <shlwapi.h>
 #include <stdlib.h>
 #include <intrin.h>
+#include <bass.h>
 #include "Hooks.h"
 #include "translations.h"
 #include "CustomMenuEntries.h"
 #include "GlobalFuncs.h"
 #include "CPortalApp.h"
+#include "CPortalData.h"
 #include "Settings.h"
+#include "ReferenceAudio.h"
 
 extern "C" __declspec(dllexport) void dummyexport() {}
 #pragma intrinsic(_ReturnAddress)
@@ -15,6 +18,8 @@ extern "C" __declspec(dllexport) void dummyexport() {}
 C_Hook hook_zoomin;
 C_Hook hook_zoomout;
 C_Hook hook_CPortalApp_InitInstance;
+C_Hook hook_CPortalView_Play;
+C_Hook hook_CPortalView_Pause;
 
 // fastcall has to be used in place of thiscall
 // to get the registers to line up, a dummy argument must be used right after this
@@ -41,6 +46,55 @@ signed int __fastcall custom_zoomout(void* thisptr, void*, unsigned int cur_zoom
     return max(cur_zoom - 1, 1);
 }
 
+void __fastcall custom_CPortalView_Play(CPortalView* thisptr, void*, unsigned a2, unsigned a3, unsigned a4, unsigned a5) {
+    //Common::Log(Common::LogType::Info, "playing at %llf", CPortalData_TicksToSeconds(thisptr->m_pPortalData, 0.0, thisptr->m_uCursorTicks));
+    auto ref_audio = ReferenceAudio::GetInstance();
+    if (ref_audio->m_hStream) {
+        auto stream = ref_audio->m_hStream;
+        auto secs = CPortalData_TicksToSeconds(thisptr->m_pPortalData, 0.0, thisptr->m_uCursorTicks); // haha secs
+        if (!BASS_ChannelSetPosition(stream, BASS_ChannelSeconds2Bytes(stream, secs), BASS_POS_BYTE))
+            Common::Log(Common::LogType::Warn, "Seeking failed. BASS returned %d", BASS_ErrorGetCode());
+        BASS_ChannelPlay(stream, FALSE);
+        
+        if (ref_audio->m_tUpdateThread) {
+            ref_audio->m_bStopRequested = true;
+            ref_audio->m_tUpdateThread->join();
+            delete ref_audio->m_tUpdateThread;
+            ref_audio->m_tUpdateThread = nullptr;
+        }
+        ref_audio->m_bStopRequested = false;
+        auto thread = new std::thread(&ReferenceAudio::UpdateThreadProc, ref_audio);
+        if (!thread)
+            Common::Warn(NULL, "Failed to start the audio update thread.");
+        ref_audio->m_tUpdateThread = thread;
+    }
+
+    // playback thread exists, so i don't want this to start early
+    hook_CPortalView_Play.removeHook();
+    CPortalView_Play(thisptr, a2, a3, a4, a5);
+    hook_CPortalView_Play.installHook();
+}
+
+void __fastcall custom_CPortalView_Pause(CPortalView* thisptr, void*, unsigned a2) {
+    //Common::Log(Common::LogType::Info, "stopping");
+    auto ref_audio = ReferenceAudio::GetInstance();
+    if (ref_audio->m_hStream) {
+        auto stream = ref_audio->m_hStream;
+        BASS_ChannelStop(stream);
+
+        if (ref_audio->m_tUpdateThread) {
+            ref_audio->m_bStopRequested = true;
+            ref_audio->m_tUpdateThread->join();
+            delete ref_audio->m_tUpdateThread;
+            ref_audio->m_tUpdateThread = nullptr;
+        }
+    }
+
+    hook_CPortalView_Pause.removeHook();
+    CPortalView_Pause(thisptr, a2);
+    hook_CPortalView_Pause.installHook();
+}
+
 signed int __fastcall custom_CPortalApp_InitInstance(void* thisptr, void*) {
     hook_CPortalApp_InitInstance.removeHook();
     auto ret = CPortalApp_InitInstance(thisptr);
@@ -52,6 +106,11 @@ signed int __fastcall custom_CPortalApp_InitInstance(void* thisptr, void*) {
     auto custom_submenu = CreatePopupMenu();
     MENUITEMINFOA item_info;
     item_info.cbSize = sizeof(item_info);
+
+    item_info.fMask = MIIM_ID | MIIM_STRING;
+    item_info.wID = ID_REFAUDIO;
+    item_info.dwTypeData = (LPSTR)"Load Reference Audio";
+    InsertMenuItemA(custom_submenu, ID_REFAUDIO, FALSE, &item_info);
 
     item_info.fMask = MIIM_ID | MIIM_STRING;
     item_info.wID = ID_SETTINGS;
@@ -107,17 +166,21 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         DWORD username_len = sizeof(username); // totally unnecessary...
 
         if (!GetModuleFileNameA(NULL, domino_path, sizeof(domino_path)))
-            Common::Fatal("GetModuleFileNameA failed! gle: %x", GetLastError());
+            Common::Fatal(NULL, "GetModuleFileNameA failed! gle: %x", GetLastError());
         PathRemoveFileSpecA(domino_path);
         if (!GetUserNameA(username, &username_len))
-            Common::Fatal("GetUserNameA failed! gle: %x", GetLastError());
+            Common::Fatal(NULL, "GetUserNameA failed! gle: %x", GetLastError());
         auto settings = Settings::Load(std::string(domino_path) + "\\IniFiles\\" + username + "\\dominohook.ini");
+
+        ReferenceAudio::Init();
 
         if (settings->m_bReplaceZoom) {
             MAKE_HOOK(zoomin);
             MAKE_HOOK(zoomout);
         }
         MAKE_HOOK(CPortalApp_InitInstance);
+        MAKE_HOOK(CPortalView_Play);
+        MAKE_HOOK(CPortalView_Pause);
 
         if (settings->m_bReplaceZoom) {
             // patch out the limit on hotkey + toolbar zoom out
@@ -233,7 +296,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                     break;
                 }
                 default:
-                    Common::Fatal("Invalid StringPatchType %d!", string_patch.type);
+                    Common::Fatal(NULL, "Invalid StringPatchType %d!", string_patch.type);
                 }
             }
         }

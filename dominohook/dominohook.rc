@@ -63,6 +63,22 @@ BEGIN
     CONTROL         "Replace zoom functions",IDC_REPLACEZOOM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,36,90,10
 END
 
+IDD_REFAUDIO DIALOGEX 0, 0, 309, 176
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Load Reference Audio"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,252,156,50,14
+    LTEXT           "Reference audio:",IDC_STATIC,6,14,56,8
+    EDITTEXT        IDC_REFAUDIOPATH,66,12,180,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "Browse",IDC_BROWSE,252,12,50,14
+    LTEXT           "Song length:",IDC_STATIC,6,30,42,8
+    LTEXT           "-:--",IDC_SONGLEN,66,30,180,8
+    LTEXT           "Volume:",IDC_STATIC,6,45,26,8
+    CONTROL         "",IDC_VOLUMESLIDER,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,66,42,100,15
+    LTEXT           "100",IDC_VOLUMEVAL,168,45,13,8
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -79,6 +95,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 169
     END
+
+    IDD_REFAUDIO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 169
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -89,6 +113,11 @@ END
 //
 
 IDD_SETTINGS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_REFAUDIO AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
