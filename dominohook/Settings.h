@@ -17,10 +17,13 @@ public:
     static void OpenDialog();
     void Save();
 
+    HWND m_hWnd = NULL;
+
     std::string m_sSavePath;
 
     bool m_bTranslate = true;
     bool m_bReplaceZoom = true;
+
 private:
     Settings(std::string path);
 

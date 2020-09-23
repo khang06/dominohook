@@ -27,6 +27,8 @@ public:
     double m_dSongDuration = 0.0;
     std::thread* m_tUpdateThread = nullptr;
     volatile bool m_bStopRequested = false;
+
+    HWND m_hWnd = NULL;
 private:
     ReferenceAudio() = default;
 

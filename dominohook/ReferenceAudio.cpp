@@ -109,8 +109,10 @@ INT_PTR CALLBACK ReferenceAudioDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
             BASS_ChannelSetAttribute(ref_audio->m_hStream, BASS_ATTRIB_VOL, (float)ref_audio->m_iVolume / 100.0f);
             return TRUE;
         }
+        case IDCANCEL:
         case IDOK: {
             EndDialog(hWnd, 0);
+            ReferenceAudio::GetInstance()->m_hWnd = NULL;
             return TRUE;
         }
         }
@@ -120,8 +122,11 @@ INT_PTR CALLBACK ReferenceAudioDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
 }
 
 void ReferenceAudio::OpenDialog() {
-    auto dlg = CreateDialogA((HINSTANCE)&__ImageBase, MAKEINTRESOURCEA(IDD_REFAUDIO), NULL, ReferenceAudioDlgProc);
-    ShowWindow(dlg, TRUE);
+    auto& hwnd = GetInstance()->m_hWnd;
+    if (!hwnd)
+        hwnd = CreateDialogA((HINSTANCE)&__ImageBase, MAKEINTRESOURCEA(IDD_REFAUDIO), (*g_pMainFrame)->m_hWnd, ReferenceAudioDlgProc);
+    ShowWindow(hwnd, TRUE);
+    SetFocus(hwnd);
 }
 
 void ReferenceAudio::UpdateThreadProc() {

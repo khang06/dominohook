@@ -64,19 +64,22 @@ INT_PTR CALLBACK SettingsDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPar
             settings->m_bTranslate = IsDlgButtonChecked(hWnd, IDC_TRANSLATE);
             settings->m_bReplaceZoom = IsDlgButtonChecked(hWnd, IDC_REPLACEZOOM);
             settings->Save();
+        }
+        [[fallthrough]]; // can't put this in the braces???
+        case IDCANCEL: {
             EndDialog(hWnd, 0);
+            Settings::GetInstance()->m_hWnd = NULL;
             return TRUE;
         }
-        case IDCANCEL:
-            EndDialog(hWnd, 0);
-            return TRUE;
         }
-        break;
     }
-    return DefWindowProcA(hWnd, Msg, wParam, lParam);
+    return FALSE;
 }
 
 void Settings::OpenDialog() {
-    auto dlg = CreateDialogA((HINSTANCE)&__ImageBase, MAKEINTRESOURCEA(IDD_SETTINGS), NULL, SettingsDlgProc);
-    ShowWindow(dlg, TRUE);
+    auto& hwnd = GetInstance()->m_hWnd;
+    if (!hwnd)
+        hwnd = CreateDialogA((HINSTANCE)&__ImageBase, MAKEINTRESOURCEA(IDD_SETTINGS), NULL, SettingsDlgProc);
+    ShowWindow(hwnd, TRUE);
+    SetFocus(hwnd);
 }
