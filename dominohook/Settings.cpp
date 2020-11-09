@@ -3,6 +3,7 @@
 #include "Common.h"
 #include "INIReader.h"
 #include "resource.h"
+#include "CMainFrame.h"
 #include "Settings.h"
 
 Settings* Settings::m_pInstance;
@@ -79,7 +80,7 @@ INT_PTR CALLBACK SettingsDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPar
 void Settings::OpenDialog() {
     auto& hwnd = GetInstance()->m_hWnd;
     if (!hwnd)
-        hwnd = CreateDialogA((HINSTANCE)&__ImageBase, MAKEINTRESOURCEA(IDD_SETTINGS), NULL, SettingsDlgProc);
+        hwnd = CreateDialogA((HINSTANCE)&__ImageBase, MAKEINTRESOURCEA(IDD_SETTINGS), (*g_pMainFrame)->m_hWnd, SettingsDlgProc);
     ShowWindow(hwnd, TRUE);
     SetFocus(hwnd);
 }
