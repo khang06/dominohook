@@ -122,6 +122,11 @@ INT_PTR CALLBACK ReferenceAudioDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
 }
 
 void ReferenceAudio::OpenDialog() {
+    if (LoadLibraryA("bass.dll") == NULL) {
+        Common::Warn((*g_pMainFrame)->m_hWnd, "BASS could not be loaded. Please copy the latest bass.dll into Domino's directory to use reference audio.");
+        return;
+    }
+
     auto& hwnd = GetInstance()->m_hWnd;
     if (!hwnd)
         hwnd = CreateDialogA((HINSTANCE)&__ImageBase, MAKEINTRESOURCEA(IDD_REFAUDIO), (*g_pMainFrame)->m_hWnd, ReferenceAudioDlgProc);
